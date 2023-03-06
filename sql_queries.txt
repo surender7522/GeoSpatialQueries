@@ -1,0 +1,36 @@
+1)
+SELECT 
+ST_AsText(ST_Intersection(gbr_roads.geom,gbr_rails.geom)),
+ gbr_roads.gid 
+FROM
+ public.gbr_rails,
+ public.gbr_roads 
+WHERE 
+ST_Intersects(gbr_roads.geom,gbr_rails.geom);
+2)
+SELECT 
+  ST_AsText(m.geom), 
+  m.name
+FROM 
+  public.gbr_water_areas_dcw as r, 
+  public.gbr_water_areas_dcw as m
+WHERE
+  r.name='LOCH OF CLIFF' And ST_DWithin(r.geom,m.geom,50000,true);
+
+3)
+SELECT 
+  ST_AsText(gbr_rails.geom),
+  gbr_rails.gid
+FROM 
+  public.gbr_rails, 
+  public.gbr_water_areas_dcw
+WHERE 
+  ST_Crosses(gbr_water_areas_dcw.geom,gbr_rails.geom);
+4)
+SELECT
+  ST_AsText(r.geom)
+FROM 
+  public.gbr_adm1 as r, 
+  public.gbr_adm1 as m
+WHERE 
+  ST_Touches(r.geom,m.geom) and r.gid=1;
